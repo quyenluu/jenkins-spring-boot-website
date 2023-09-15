@@ -13,9 +13,7 @@ pipeline {
         stage('SonarQube Sccan') {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Spring-Boot-Website \
-                       -Dsonar.java.binaries=. \
-                       -Dsonar.projectKey=Spring-Boot-Website '''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner --version '''
                 }
             }
         }
