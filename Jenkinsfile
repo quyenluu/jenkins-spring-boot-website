@@ -12,9 +12,11 @@ pipeline {
         }
         stage('SonarQube Sccan') {
             steps {
-                withSonarQubeEnv('SonarQube-Server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner --version '''
-                }
+                withSonarQubeEnv('SonarQube-Server'){
+                   sh ''' $SONARQUBE_HOME/bin/sonar-scanner -Dsonar.projectName=Shopping-Cart \
+                   -Dsonar.java.binaries=. \
+                   -Dsonar.projectKey=Shopping-Cart '''
+               }
             }
         }
     }
