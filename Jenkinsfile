@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
-                        sh "docker build -t spring-boot-website -f docker/Dockerfile ."
+                        sh "docker build -t spring-boot-website -f Dockerfile ."
                         sh "docker tag  spring-boot-website quyenluu/spring-boot-website:latest"
                         sh "docker push quyenluu/spring-boot-website:latest"
                     }
