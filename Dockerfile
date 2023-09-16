@@ -1,6 +1,6 @@
-FROM openjdk:8u151-jdk-alpine3.7
+FROM bitnami/java
 
-EXPOSE 8070
+EXPOSE 5001
 
 ENV APP_HOME /usr/src/app
 
