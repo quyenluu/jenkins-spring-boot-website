@@ -45,5 +45,16 @@ pipeline {
                 sh 'mvn clean package -DskipTests=true'
             }
         }
+        stage('Docker Build & Push') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
+                        sh "docker build -t spring-boot-website -f docker/Dockerfile ."
+                        sh "docker tag  spring-boot-website quyenluu/spring-boot-website:latest"
+                        sh "docker push quyenluu/spring-boot-website:latest"
+                    }
+                }
+            }
+        }
     }
 }
