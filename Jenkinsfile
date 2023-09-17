@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
-                        sh "docker run -d -name spring-boot-website quyenluu/spring-boot-website:latest"
+                        sh "docker run -d --name spring-boot-website quyenluu/spring-boot-website:latest"
                     }
                 }
             }
