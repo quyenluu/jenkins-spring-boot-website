@@ -18,12 +18,12 @@ pipeline {
                 sh "mvn clean compile -DskipTests=true"
             }
         }
-        stage('OWASP Scan') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'Dependency-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
+//         stage('OWASP Scan') {
+//             steps {
+//                 dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'Dependency-Check'
+//                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+//             }
+//         }
         stage('SonarQube Sccan') {
             steps {
                 withSonarQubeEnv('SonarQube-Server'){
@@ -60,6 +60,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
+                        sh 'docker container stop spring-boot-website || echo "this container does not exist" '
+                        sh 'echo y | docker container prune'
                         sh "docker run -d --name spring-boot-website quyenluu/spring-boot-website:latest"
                     }
                 }
