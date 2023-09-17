@@ -18,12 +18,12 @@ pipeline {
                 sh "mvn clean compile -DskipTests=true"
             }
         }
-        // stage('OWASP Scan') {
-        //     steps {
-        //         dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'Dependency-Check'
-        //         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //     }
-        // }
+        stage('OWASP Scan') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'Dependency-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
         stage('SonarQube Sccan') {
             steps {
                 withSonarQubeEnv('SonarQube-Server'){
@@ -47,11 +47,20 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                script{
+                script {
                     withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
                         sh "docker build -t spring-boot-website -f Dockerfile ."
                         sh "docker tag  spring-boot-website quyenluu/spring-boot-website:latest"
                         sh "docker push quyenluu/spring-boot-website:latest"
+                    }
+                }
+            }
+        }
+        stage('Docker Deploy') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
+                        sh "docker run -d -name spring-boot-website quyenluu/spring-boot-website:latest"
                     }
                 }
             }
