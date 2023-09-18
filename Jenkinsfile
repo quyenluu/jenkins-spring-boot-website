@@ -62,7 +62,7 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker-hub-cred', toolName: 'docker') {
                         sh 'docker container stop spring-boot-website || echo "this container does not exist" '
                         sh 'echo y | docker container prune'
-                        sh "docker run -d --name spring-boot-website quyenluu/spring-boot-website:latest"
+                        sh "docker run -d --name spring-boot-website --network jenkins-app quyenluu/spring-boot-website:latest"
                     }
                 }
             }
